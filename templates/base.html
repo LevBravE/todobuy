@@ -1,0 +1,134 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8">
+		<!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+
+		<title> TodoBuy </title>
+		<meta name="description" content="TodoBuy">
+		<meta name="author" content="LevBravE">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<!-- Basic Styles -->
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static "css/bootstrap.min.css" %}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static "css/font-awesome.min.css" %}">
+
+		<!-- SmartAdmin Styles : -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/smartadmin-production-plugins.min.css" %}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{% static "css/smartadmin-production.min.css" %}">
+
+		<!-- Kendo UI -->
+        <link href="{% static "css/kendoui/kendo.common-bootstrap.min.css" %}" rel="stylesheet" />
+        <link href="{% static "css/kendoui/kendo.bootstrap.min.css" %}" rel="stylesheet" />
+
+		<!-- Custom style -->
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static "css/custom_style.css" %}">
+
+		<!-- FAVICONS -->
+		<link rel="shortcut icon" href="{% static "img/favicon/favicon.ico" %}" type="image/x-icon">
+		<link rel="icon" href="{% static "img/favicon/favicon.ico" %}" type="image/x-icon">
+
+		<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	</head>
+	<body class="">
+		<!-- possible classes: minified, fixed-ribbon, fixed-header, fixed-width-->
+
+        <div style="display:none">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+
+		<!-- HEADER -->
+        {% block header %}
+            <header id="header">
+                <div id="logo-group">
+                    <span id="logo"> <img src="{% static "img/logo.png" %}" alt="TodoBuy"> </span>
+                </div>
+            </header>
+        {% endblock %}
+		<!-- END HEADER -->
+
+		<!-- MAIN PANEL -->
+        {% block main_panel %}{% endblock %}
+		<!-- END MAIN PANEL -->
+
+		<!-- PAGE FOOTER -->
+        {% block footer %}
+		<div class="page-footer">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6">
+					<span class="txt-color-white">BabyStep.TV © 2015 </span><span class="txt-color-blueLight">LevBravE</span>
+				</div>
+			</div>
+		</div>
+        {% endblock %}
+		<!-- END PAGE FOOTER -->
+
+		<!--================================================== -->
+
+		<!-- jQuery + jQueryUI -->
+		<script src="{% static "js/libs/jquery-2.1.1.min.js" %}"></script>
+		<script src="{% static "js/libs/jquery-ui-1.10.3.min.js" %}"></script>
+
+		<!-- IMPORTANT: APP CONFIG -->
+		<script src="{% static "js/app.config.js" %}"></script>
+
+        <!-- JS COOKIE -->
+		<script src="{% static "js/plugin/jquery-cookie/jquery.cookie.js" %}"></script>
+
+		<!-- BOOTSTRAP JS -->
+		<script src="{% static "js/bootstrap/bootstrap.min.js" %}"></script>
+
+		<!-- CUSTOM NOTIFICATION -->
+		<script src="{% static "js/notification/SmartNotification.min.js" %}"></script>
+
+        <!-- JS FAST CLICK -->
+		<script src="{% static "js/plugin/fastclick/fastclick.min.js" %}"></script>
+
+        <!-- Kendo UI -->
+        <script src="{% static "js/kendoui/kendo.all.min.js" %}"></script>
+        <script src="{% static "js/kendoui/cultures/kendo.culture.ru-RU.min.js" %}"></script>
+        <script src="{% static "js/kendoui/jszip.min.js" %}"></script>
+
+		<!--[if IE 8]>
+
+		<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+		<![endif]-->
+
+		<!-- MAIN APP JS FILE -->
+		<script src="{% static "js/app.min.js" %}"></script>
+
+		<script>
+			$(document).ready(function() {
+				// DO NOT REMOVE : GLOBAL FUNCTIONS!
+				pageSetUp();
+
+                // CSRF
+                var csrftoken = $.cookie('csrftoken');
+
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings) {
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
+			});
+
+		</script>
+
+        {% block script_footer %}{% endblock %}
+
+	</body>
+
+</html>
