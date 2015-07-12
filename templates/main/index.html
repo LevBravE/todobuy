@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+
+{% load static from staticfiles %}
+
+{% block n-registry %}class="active"{% endblock %}
+{#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#}
+{% block main_panel %}
+    <div id="main" role="main">
+
+        <!-- MAIN CONTENT -->
+        <div id="content" class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 hidden-xs hidden-sm">
+                    <h1 class="txt-color-red login-header-big">TodoBuy</h1>
+                    <div class="hero">
+
+                        <div class="pull-left login-desc-box-l">
+                            <h4 class="paragraph-header">interactive shopping list</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <h5 class="about-heading">Features:</h5>
+                            <ul>
+                                <li>it allows to shopping list</li>
+                                <li>convenient opportunity to work with the smartphone and the desktop</li>
+                                <li>integration with HipChat</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                    <div class="jarviswidget jarviswidget-color-blue">
+
+                        <header>
+                            <div class="jarviswidget-ctrls">
+                                <a id="buy-config" href="javascript:void(0);" class="button-icon jarviswidget-edit-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Config">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <a id="buy-save" href="javascript:void(0);" class="button-icon jarviswidget-edit-btn" rel="tooltip" title="" data-placement="bottom" data-original-title="Save" style="display: none">
+                                    <i class="fa fa-save"></i>
+                                </a>
+                            </div>
+                            <span class="widget-icon"> <i class="fa fa-check txt-color-white"></i> </span>
+                            <h2> ToDo's </h2>
+                            <div class="widget-toolbar">
+                                <div class="btn-group">
+                                    <button class="btn dropdown-toggle btn-xs btn-success btn-clean" data-toggle="modal" data-target="#buyModal"> Add </button>
+                                </div>
+                            </div>
+
+                        </header>
+
+                        <div role="content">
+                            <div id="config-hipchat" class="jarviswidget-editbox" style="display: none;">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" data-bind="value: room">
+                                    <div class="note">
+                                        The <strong>id</strong> or <strong>name</strong> of the room
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" type="text" data-bind="value: token">
+                                    <div class="note">
+                                        Auth <strong>token</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-body no-padding smart-form">
+                                <!-- content goes here -->
+                                <h5 class="todo-group-title"><i class="fa fa-exclamation"></i> Will Buy (<small class="num-of-buy"></small>)</h5>
+                                <ul id="buy-listview" class="todo"></ul>
+
+                                <h5 class="todo-group-title"><i class="fa fa-check"></i> Completed of the purchase (<small class="num-of-buy"></small>)</h5>
+                                <ul id="buy-complete-listview" class="todo"></ul>
+
+                                <!-- end content -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="text-center"> - Buy me ;) - </h5>
+
+                </div>
+			</div>
+
+        </div>
+        <!-- END MAIN CONTENT -->
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Buy</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Title" required data-bind="value: title"/>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Content" rows="5" data-bind="value: content"></textarea>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-clean" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <button id="btn-save" type="button" class="btn btn-primary">
+                        Save
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <script id="buy-template" type="text/kendo-ui-template">
+        <li>
+            <span class="handle btn-group btn-group-justified" data-buy-pk="#= pk #">
+                <a class="btn btn-success btn-xs buy-complete" title="complete">
+                    <i class="fa fa-check fa-xs"></i>
+                </a>
+                <a class="btn btn-primary btn-xs buy-edit" title="edit">
+                    <i class="fa fa-pencil fa-xs"></i>
+                </a>
+                <a class="btn btn-danger btn-xs buy-remove" title="remove">
+                    <i class="fa fa-times fa-xs"></i>
+                </a>
+            </span>
+            <p>
+                <strong>\##= number#</strong> - #= name #
+                <span class="text-muted">#= description #</span>
+                <span class="date">#= date_create #</span>
+            </p>
+        </li>
+    </script>
+
+    <script id="buy-complete-template" type="text/kendo-ui-template">
+        <li class="complete">
+            <span></span>
+            <p>
+                <strong>\##= number#</strong> - #= name #
+                <span class="text-muted">#= description #</span>
+                <span class="date">#= date_create #</span>
+            </p>
+        </li>
+    </script>
+{% endblock %}
+
+
+{% block script_footer %}
+    <script>
+         $.getJSON( "/main/buy/config/get/", function( returnData ) {
+            configViewModel.set("room", returnData.room);
+            configViewModel.set("token", returnData.token);
+        });
+
+        var buyViewModel = kendo.observable({
+            title: "",
+            content: "",
+            pk: "",
+            startOver: function() {
+                this.set("title", "");
+                this.set("content", "");
+                this.set("pk", "");
+            }
+        });
+        kendo.bind($("#buyModal"), buyViewModel);
+
+        $( ".btn-clean" ).click(function() {
+            buyViewModel.startOver();
+        });
+
+        $( "#btn-save" ).click(function() {
+            var data = buyViewModel.toJSON();
+            $.post( "/main/buy/set/", data, function( returnData ) {
+                var buy_text;
+                if (buyViewModel.get("pk")) {
+                    var dataItem = buyDataSource.get(buyViewModel.get("pk"));
+                    dataItem.set("name", returnData.name);
+                    dataItem.set("description", returnData.description);
+                    buy_text = "Successfully changed";
+                    hipchat_send("Modified \"#" + returnData.number + " " + returnData.name + "\"", "gray");
+                    buy_listview.refresh();
+                } else {
+                    buy_listview.dataSource.add(returnData);
+                    buy_text = "Successfully added";
+                    hipchat_send("Add \"#" + returnData.number + " " + returnData.name + "\"", "yellow");
+                }
+                $.smallBox({
+					title : buy_text,
+					color : "#659265",
+					iconSmall : "fa fa-thumbs-up bounce animated",
+					timeout : 3000
+				});
+                $('#buyModal').modal('hide');
+            }, "json");
+        });
+
+        var buyDataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/main/buy/list/get/",
+                    dataType: "json"
+                }
+            },
+            schema: {
+                model: {
+                    id: "pk"
+                }
+            },
+            sort: { field: "number", dir: "desc" }
+        });
+
+        var buy_listview = $("#buy-listview").kendoListView({
+            dataSource: buyDataSource,
+            template: kendo.template($("#buy-template").html()),
+            dataBound: function() {
+                countBuy();
+            }
+        }).data("kendoListView");
+
+        // count buy
+        function countBuy() {
+            $('.todo-group-title').each(function() {
+                var $this = $(this);
+                $this.find(".num-of-buy").text($this.next().find("li").size());
+            });
+            $( ".buy-complete" ).click(function() {
+                var $this = $(this).parent();
+                var buy_pk = $( $this ).attr( "data-buy-pk" );
+                var dataItem = buyDataSource.get(buy_pk);
+                $.getJSON( "/main/buy/complete/", { pk: buy_pk }, function( returnData ) {
+                    $this.slideUp(500, function() {
+                        buyDataSource.remove(dataItem);
+                        buyCompleteDataSource.add(returnData);
+                    });
+                    hipchat_send("Complete \"#" + returnData.number + " " + returnData.name + "\"", "green")
+                });
+            });
+            $( ".buy-edit" ).click(function() {
+                var $this = $(this).parent();
+                var buy_pk = $( $this ).attr( "data-buy-pk" );
+                var dataItem = buyDataSource.get(buy_pk);
+                buyViewModel.set("pk", dataItem.get("pk"));
+                buyViewModel.set("title", dataItem.get("name"));
+                buyViewModel.set("content", dataItem.get("description"));
+                $('#buyModal').modal('show');
+            });
+            $( ".buy-remove" ).click(function(e) {
+                var $this = $(this).parent();
+                $.SmartMessageBox({
+					title : "Removal of buy",
+					content : "Are you sure you want to remove this purchase",
+					buttons : '[No][Yes]'
+				}, function(ButtonPressed) {
+					if (ButtonPressed === "Yes") {
+                        var buy_pk = $( $this ).attr( "data-buy-pk" );
+                        var dataItem = buyDataSource.get(buy_pk);
+                        $.post( "/main/buy/remove/", { pk: buy_pk }, function( returnData ) {
+                            if (!returnData.error) {
+                                buyDataSource.remove(dataItem);
+                                $.smallBox({
+                                    title : "Successfully deleted",
+                                    color : "#659265",
+                                    iconSmall : "fa fa-thumbs-up bounce animated",
+                                    timeout : 3000
+                                });
+                                hipchat_send("Removed \"#" + dataItem.get("number") + " " + dataItem.get("name") + "\"", "red")
+                            }
+                        }, "json");
+					}
+				});
+                e.preventDefault();
+            });
+        }
+
+        var buyCompleteDataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/main/buy/complete/list/get/",
+                    dataType: "json"
+                }
+            },
+            sort: { field: "number", dir: "desc" }
+        });
+
+        var buy_complete_listview = $("#buy-complete-listview").kendoListView({
+            dataSource: buyCompleteDataSource,
+            template: kendo.template($("#buy-complete-template").html()),
+            dataBound: function() {
+                countBuyComplete();
+            }
+        }).data("kendoListView");
+
+        function countBuyComplete() {
+            $('.todo-group-title').each(function() {
+                var $this = $(this);
+                $this.find(".num-of-buy").text($this.next().find("li").size());
+            });
+        }
+
+        var configViewModel = kendo.observable({
+            room: "",
+            token: "",
+            startOver: function() {
+                this.set("room", "");
+                this.set("token", "");
+            }
+        });
+        kendo.bind($("#config-hipchat"), configViewModel);
+
+        $( "#buy-config" ).click(function() {
+            var $this = $(this);
+            configViewModel.startOver();
+            $.getJSON( "/main/buy/config/get/", function( returnData ) {
+                configViewModel.set("room", returnData.room);
+                configViewModel.set("token", returnData.token);
+                $this.hide();
+                $("#buy-save").show();
+                $("#config-hipchat").show();
+            });
+        });
+
+        $( "#buy-save" ).click(function() {
+            var data = configViewModel.toJSON();
+            var $this = $(this);
+            $.getJSON( "/main/buy/config/set/", data, function() {
+                $this.hide();
+                $("#buy-config").show();
+                $("#config-hipchat").hide();
+            });
+        });
+        function hipchat_send(text, color) {
+            color = typeof color !== 'undefined' ? color : "green";
+            $.post( "https://api.hipchat.com/v2/room/" + configViewModel.get("room") + "/notification?auth_token=" + configViewModel.get("token"), {color: color, message: text, notify: true, message_format: "text" }).fail(function(returnError) {
+                var error = returnError.responseJSON.error;
+                $.smallBox({
+                    title : "Error HipChat",
+                    content : error.code + " " + error.message,
+                    color : "#C46A69",
+                    iconSmall : "fa fa-times fadeInRight animated",
+                    timeout : 5000
+                });
+            });
+        }
+    </script>
+{% endblock %}

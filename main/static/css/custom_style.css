@@ -1,0 +1,13 @@
+/*
+ * It is advised not to edit the smartadmin_production.css
+ * as this will override any changes you make in the 
+ * later versions of this theme. 
+ * 
+ * We advise that you use use this CSS to override 
+ * SmartAdmin styles. 
+ * 
+ * Rename the stylesheet to whatever your liking so it will stay
+ * unique to you with each update of SmartAdmin.
+ */
+
+.todo>li{display:block;position:relative;overflow:hidden;border-bottom:1px solid #e7e7e7;margin:0;background:1px;}  .todo>li:last-child,.todo>li:only-child{border-bottom:none}.todo>li>:first-child{display:block;border-right:1px solid #FFE1EB;height:100%;padding:6px 11px 6px 5px;width:63px;vertical-align:top;position:absolute}.todo>li>:first-child:hover{cursor:default}.todo>li.complete>:first-child:hover{cursor:default}.todo>li.complete{background:0 0}.todo>li>p{height:100%;margin-left:82px;border-left:1px solid #FFE1EB;display:inline-block;padding:8px 0 6px 7px;margin-bottom:0;min-height:37px;line-height:normal;font-size:14px;font-weight:500;color:#333}.todo>li>p>span{display:block;line-height:12px;font-size:10px;font-weight:400}.todo>li>p>:first-child{margin-top:-5px;color:#999;margin-bottom:4px}.todo>li>p>.date{color:#bfbfbf}.todo>li.complete>*{text-decoration:line-through;font-style:italic}.todo>li.ui-sortable-helper{border-top:1px solid #eee;background:rgba(113,132,63,.1)}.smart-timeline{position:relative}.smart-timeline-list{list-style:none;margin:0;padding:0}.smart-timeline-list:after{content:" ";background-color:#eee;position:absolute;display:block;width:2px;top:0;left:95px;bottom:0;z-index:1}.smart-timeline-list
